@@ -159,6 +159,21 @@ class ConvDQN(DQN):
         )
         super().construct()
 
+class AtariDQN(DQN):
+    def construct(self):
+        self.features = nn.Sequential(
+            nn.Conv2d(self.input_shape[0], 32, kernel_size=4),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, kernel_size=4),
+            nn.ReLU(),
+            nn.Conv2d(64, 64, kernel_size=3),
+            nn.ReLU()
+        )
+        self.layers = nn.Sequential(
+            nn.Linear(self.feature_size(), 512),
+            nn.ReLU(),
+            nn.Linear(512, self.num_actions)
+        )
 
 def compute_loss(model, target, states, actions, rewards, next_states, dones):
     '''
@@ -249,12 +264,20 @@ def train(model_class, env):
 
             # Apply the action to the environment
             next_state, reward, done, info = env.step(action)
+            # posi = np.where(state[1]==1)[0][0] + np.where(state[1]==1)[1][0]
+            x_ = np.where(state[1]==1)[0][0]
+            y_ = np.where(state[1]==1)[1][0]
+            distace = (x_**2 + y_**2)**0.5
+            # reward += 1 / distace
+            reward_p = reward + 1 / distace
 
+            if reward > 0:
+                env.render()
             # Save transition to replay buffer
-            memory.push(Transition(state, [action], [reward], next_state, [done]))
+            memory.push(Transition(state, [action], [reward_p], next_state, [done]))
 
             state = next_state
-            episode_rewards += reward
+            episode_rewards += reward_p
             if done:
                 break
         rewards.append(episode_rewards)
@@ -318,13 +341,26 @@ def get_env():
     '''
     Get the sample test cases for training and testing.
     '''
-    config = {  'observation_type': 'tensor', 'agent_speed_range': [-2, -1], 'stochasticity': 0.0, 'width': 10,
-                'lanes': [
-                    LaneSpec(cars=3, speed_range=[-2, -1]), 
-                    LaneSpec(cars=4, speed_range=[-2, -1]), 
-                    LaneSpec(cars=2, speed_range=[-1, -1]), 
-                    LaneSpec(cars=2, speed_range=[-3, -1])
-                ] }
+    # config = {  'observation_type': 'tensor', 'agent_speed_range': [-2, -1], 'stochasticity': 0.0, 'width': 10,
+    #             'lanes': [
+    #                 LaneSpec(cars=3, speed_range=[-2, -1]), 
+    #                 LaneSpec(cars=4, speed_range=[-2, -1]), 
+    #                 LaneSpec(cars=2, speed_range=[-1, -1]), 
+    #                 LaneSpec(cars=2, speed_range=[-3, -1])
+    #             ] }
+    #             
+    config = {'observation_type': 'tensor', 'agent_speed_range': [-3, -1], 'width': 50,
+              'lanes': [LaneSpec(cars=7, speed_range=[-2, -1]), 
+                        LaneSpec(cars=8, speed_range=[-2, -1]), 
+                        LaneSpec(cars=6, speed_range=[-1, -1]), 
+                        LaneSpec(cars=6, speed_range=[-3, -1]), 
+                        LaneSpec(cars=7, speed_range=[-2, -1]), 
+                        LaneSpec(cars=8, speed_range=[-2, -1]), 
+                        LaneSpec(cars=6, speed_range=[-3, -2]), 
+                        LaneSpec(cars=7, speed_range=[-1, -1]), 
+                        LaneSpec(cars=6, speed_range=[-2, -1]), 
+                        LaneSpec(cars=8, speed_range=[-2, -2])]
+            }
     return gym.make('GridDriving-v0', **config)
 
 
@@ -338,7 +374,7 @@ if __name__ == '__main__':
     env = get_env()
 
     if args.train:
-        model = train(ConvDQN, env)
+        model = train(AtariDQN, env)
         save_model(model)
     else:
         model = get_model()

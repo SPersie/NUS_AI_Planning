@@ -276,3 +276,70 @@ def train(model_class, env):
             print("[Episode {}]\tavg rewards : {:.3f},\tavg loss: : {:.6f},\tbuffer size : {},\tepsilon : {:.1f}%".format(
                             episode, np.mean(rewards[print_interval:]), np.mean(losses[print_interval*10:]), len(memory), epsilon*100))
     return model
+
+def test(model, env, max_episodes=600):
+    '''
+    Test the `model` on the environment `env` (GridDrivingEnv) for `max_episodes` (`int`) times.
+
+    Output: `avg_rewards` (`float`): the average rewards
+    '''
+    rewards = []
+    for episode in range(max_episodes):
+        state = env.reset()
+        episode_rewards = 0.0
+        for t in range(t_max):
+            action = model.act(state)   
+            state, reward, done, info = env.step(action)
+            episode_rewards += reward
+            if done:
+                break
+        rewards.append(episode_rewards)
+    avg_rewards = np.mean(rewards)
+    print("{} episodes avg rewards : {:.1f}".format(max_episodes, avg_rewards))
+    return avg_rewards
+
+def get_model():
+    '''
+    Load `model` from disk. Location is specified in `model_path`. 
+    '''
+    model_class, model_state_dict, input_shape, num_actions = torch.load(model_path)
+    model = eval(model_class)(input_shape, num_actions).to(device)
+    model.load_state_dict(model_state_dict)
+    return model
+
+def save_model(model):
+    '''
+    Save `model` to disk. Location is specified in `model_path`. 
+    '''
+    data = (model.__class__.__name__, model.state_dict(), model.input_shape, model.num_actions)
+    torch.save(data, model_path)
+
+def get_env():
+    '''
+    Get the sample test cases for training and testing.
+    '''
+    config = {  'observation_type': 'tensor', 'agent_speed_range': [-2, -1], 'stochasticity': 0.0, 'width': 10,
+                'lanes': [
+                    LaneSpec(cars=3, speed_range=[-2, -1]), 
+                    LaneSpec(cars=4, speed_range=[-2, -1]), 
+                    LaneSpec(cars=2, speed_range=[-1, -1]), 
+                    LaneSpec(cars=2, speed_range=[-3, -1])
+                ] }
+    return gym.make('GridDriving-v0', **config)
+
+
+if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Train and test DQN agent.')
+    parser.add_argument('--train', dest='train', action='store_true', help='train the agent')
+    args = parser.parse_args()
+
+    env = get_env()
+
+    if args.train:
+        model = train(ConvDQN, env)
+        save_model(model)
+    else:
+        model = get_model()
+    test(model, env, max_episodes=600)
