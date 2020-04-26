@@ -1,0 +1,158 @@
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /opt/conda/bin/python /fast_downward/builds/release/bin/translate/translate.py HW1domain.pddl HW1problem.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.170s CPU, 0.176s wall-clock]
+Normalizing task... [0.010s CPU, 0.009s wall-clock]
+Instantiating...
+Generating Datalog program... [0.150s CPU, 0.158s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.010s CPU, 0.003s wall-clock]
+Preparing model... [0.630s CPU, 0.631s wall-clock]
+Generated 91 rules.
+Computing model... [1.380s CPU, 1.378s wall-clock]
+61404 relevant atoms
+66522 auxiliary atoms
+127926 final queue length
+141070 total queue pushes
+Completing instantiation... [0.480s CPU, 0.479s wall-clock]
+Instantiating: [2.700s CPU, 2.717s wall-clock]
+Computing fact groups...
+Finding invariants...
+5 initial candidates
+Finding invariants: [0.010s CPU, 0.004s wall-clock]
+Checking invariant weight... [0.020s CPU, 0.021s wall-clock]
+Instantiating groups... [0.000s CPU, 0.000s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.002s wall-clock]
+Choosing groups...
+5777 uncovered facts
+Choosing groups: [0.000s CPU, 0.001s wall-clock]
+Building translation key... [0.030s CPU, 0.024s wall-clock]
+Computing fact groups: [0.130s CPU, 0.129s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.006s wall-clock]
+Building dictionary for full mutex groups... [0.010s CPU, 0.005s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.005s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.001s wall-clock]
+Processing axioms: [0.020s CPU, 0.023s wall-clock]
+Translating task: [0.520s CPU, 0.515s wall-clock]
+7876 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+310 operators removed
+0 axioms removed
+4590 propositions removed
+Detecting unreachable propositions: [0.350s CPU, 0.344s wall-clock]
+Reordering and filtering variables...
+3351 of 3482 variables necessary.
+0 of 0 mutex groups necessary.
+7571 of 7571 operators necessary.
+16 of 16 axiom rules necessary.
+Reordering and filtering variables: [0.660s CPU, 0.667s wall-clock]
+Translator variables: 3351
+Translator derived variables: 1
+Translator facts: 6702
+Translator goal facts: 1
+Translator mutex groups: 0
+Translator total mutex groups size: 0
+Translator operators: 7571
+Translator axioms: 16
+Translator task size: 55166
+Translator peak memory: 122064 KB
+Writing output... [0.080s CPU, 0.122s wall-clock]
+Done! [4.650s CPU, 4.720s wall-clock]
+translate exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /fast_downward/builds/release/bin/downward --search 'lazy_greedy([ff()], preferred=[ff()])' --internal-plan-file sas_plan < output.sas
+reading input... [t=7.6065e-05s]
+done reading input! [t=0.0512641s]
+Simplifying 22388 unary operators... done! [21017 unary operators]
+time to simplify: 0.0106491s
+Initializing additive heuristic...
+Initializing FF heuristic...
+Simplifying 22388 unary operators... done! [21017 unary operators]
+time to simplify: 0.0112732s
+Initializing additive heuristic...
+Initializing FF heuristic...
+Building successor generator...done! [t=0.0869322s]
+peak memory difference for successor generator creation: 0 KB
+time for successor generation creation: 0.00362395s
+Variables: 3351
+FactPairs: 6702
+Bytes per state: 420
+Conducting lazy best first search, (real) bound = 2147483647
+New best heuristic value for ff: 15
+[g=0, 1 evaluated, 0 expanded, t=0.0877135s, 29332 KB]
+Initial heuristic value for ff: 15
+Initial heuristic value for ff: 15
+New best heuristic value for ff: 14
+[g=1, 2 evaluated, 1 expanded, t=0.0883228s, 29332 KB]
+New best heuristic value for ff: 13
+[g=2, 3 evaluated, 2 expanded, t=0.0888062s, 29332 KB]
+New best heuristic value for ff: 12
+[g=3, 4 evaluated, 3 expanded, t=0.0893368s, 29332 KB]
+New best heuristic value for ff: 11
+[g=4, 5 evaluated, 4 expanded, t=0.0898653s, 29332 KB]
+New best heuristic value for ff: 10
+[g=5, 6 evaluated, 5 expanded, t=0.0903941s, 29332 KB]
+New best heuristic value for ff: 9
+[g=6, 7 evaluated, 6 expanded, t=0.0908804s, 29332 KB]
+New best heuristic value for ff: 8
+[g=7, 8 evaluated, 7 expanded, t=0.0913149s, 29332 KB]
+New best heuristic value for ff: 7
+[g=8, 9 evaluated, 8 expanded, t=0.0917875s, 29332 KB]
+New best heuristic value for ff: 6
+[g=9, 10 evaluated, 9 expanded, t=0.0922486s, 29332 KB]
+New best heuristic value for ff: 5
+[g=10, 11 evaluated, 10 expanded, t=0.0927185s, 29332 KB]
+New best heuristic value for ff: 4
+[g=11, 12 evaluated, 11 expanded, t=0.0931475s, 29332 KB]
+New best heuristic value for ff: 3
+[g=12, 13 evaluated, 12 expanded, t=0.0936499s, 29332 KB]
+New best heuristic value for ff: 2
+[g=13, 14 evaluated, 13 expanded, t=0.094144s, 29332 KB]
+New best heuristic value for ff: 1
+[g=14, 15 evaluated, 14 expanded, t=0.0946347s, 29332 KB]
+Solution found!
+Actual search time: 0.0076422s [t=0.095022s]
+up agent1 pt29pt6_0 pt28pt5_1 (1)
+forward3 agent1 pt28pt5_1 pt25pt5_2 (1)
+forward3 agent1 pt25pt5_2 pt22pt5_3 (1)
+forward3 agent1 pt22pt5_3 pt19pt5_4 (1)
+forward3 agent1 pt19pt5_4 pt16pt5_5 (1)
+up agent1 pt16pt5_5 pt15pt4_6 (1)
+down agent1 pt15pt4_6 pt14pt5_7 (1)
+up agent1 pt14pt5_7 pt13pt4_8 (1)
+up agent1 pt13pt4_8 pt12pt3_9 (1)
+forward3 agent1 pt12pt3_9 pt9pt3_10 (1)
+forward3 agent1 pt9pt3_10 pt6pt3_11 (1)
+up agent1 pt6pt3_11 pt5pt2_12 (1)
+up agent1 pt5pt2_12 pt4pt1_13 (1)
+forward3 agent1 pt4pt1_13 pt1pt1_14 (1)
+up agent1 pt1pt1_14 pt0pt0_15 (1)
+Plan length: 15 step(s).
+Plan cost: 15
+Expanded 15 state(s).
+Reopened 0 state(s).
+Evaluated 16 state(s).
+Evaluations: 31
+Generated 381 state(s).
+Dead ends: 0 state(s).
+Number of registered states: 16
+Int hash set load factor: 16/16 = 1
+Int hash set resizes: 4
+Search time: 0.00771768s
+Total time: 0.0950554s
+Solution found.
+Peak memory: 29332 KB
+Remove intermediate file output.sas
+search exit code: 0
+

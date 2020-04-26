@@ -1,0 +1,5 @@
+(up agent1 pt4pt2 pt3pt1)
+(up agent1 pt3pt1 pt2pt0)
+(down agent1 pt2pt0 pt1pt1)
+(up agent1 pt1pt1 pt0pt0)
+; cost = 4 (unit cost)
